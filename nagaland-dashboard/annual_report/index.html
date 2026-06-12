@@ -146,7 +146,8 @@
   </div>
 
   <script>
-   
+    const API = '/api';
+    const districts = [];
 
     const districtSelect = document.getElementById('district-select');
     const areaFilter     = document.getElementById('area-filter');
@@ -156,8 +157,7 @@
     const sheetInfo      = document.getElementById('sheet-info');
 
     // Load districts into dropdown
-    
-
+    function loadWorkbook() {
       districts.forEach(d => {
         const opt       = document.createElement('option');
         opt.value       = d.id;
@@ -197,40 +197,40 @@
 
     // Render JSON array as HTML table
     function renderTable(data) {
-  // Define the order you want
-  const headers = [
-    'district', 'area_type', 'year',
-    'census_population', 'reg_units',
-    'returns_due', 'returns_received',
-    'est_midyear_pop_total', 'est_midyear_pop_adjusted'
-  ];
+      // Define the order you want
+      const headers = [
+        'district', 'area_type', 'year',
+        'census_population', 'reg_units',
+        'returns_due', 'returns_received',
+        'est_midyear_pop_total', 'est_midyear_pop_adjusted'
+      ];
 
-  const table = document.createElement('table');
-  const thead = document.createElement('thead');
-  const tbody = document.createElement('tbody');
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
 
-  const headerRow = document.createElement('tr');
-  headers.forEach(h => {
-    const th       = document.createElement('th');
-    th.textContent = h.replace(/_/g, ' ').toUpperCase();
-    headerRow.appendChild(th);
-  });
-  thead.appendChild(headerRow);
+      const headerRow = document.createElement('tr');
+      headers.forEach(h => {
+        const th       = document.createElement('th');
+        th.textContent = h.replace(/_/g, ' ').toUpperCase();
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
 
-  data.forEach(row => {
-    const tr = document.createElement('tr');
-    headers.forEach(h => {
-      const td       = document.createElement('td');
-      td.textContent = row[h] ?? '';
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        headers.forEach(h => {
+          const td       = document.createElement('td');
+          td.textContent = row[h] ?? '';
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
 
-  table.appendChild(thead);
-  table.appendChild(tbody);
-  container.appendChild(table);
-}
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      container.appendChild(table);
+    }
 
     districtSelect.addEventListener('change', loadStats);
     areaFilter.addEventListener('change', loadStats);
